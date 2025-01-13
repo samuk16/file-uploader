@@ -1,0 +1,46 @@
+<header>
+    <nav class="navProfile">
+        <h1>
+            <a class="link" href="/">Members Only</a>
+        </h1>
+
+
+        <div class="container-mini-profile">
+            <% if (locals.currentUser) { %>
+                <a href="/create-message" class="btn btn-primary">Create Message</a>
+
+                <div class=" container-badges">
+                    <a href="/member">
+                        <div class="<%= locals.currentUser.member ? " badge badge-member "
+                            : " badge badge-member-inactive " %>
+                            ">Member
+                        </div>
+                    </a>
+
+                    <a href="/admin">
+
+                        <div class="<%= locals.currentUser.admin ? " badge badge-admin" : "badge badge-admin-inactive"
+                            %>
+                            ">Admin
+                        </div>
+                    </a>
+
+                </div>
+                <a href="/profile" class="btn btn-secondary">
+
+                    <%= locals.currentUser.username %>
+                </a>
+
+
+                <form action="/log-out" method="POST" style="display: inline;">
+                    <button class="btn btn-ghost" type="submit">Log out</button>
+                </form>
+
+                <% }else { %>
+                    <a href="/log-in" class="btn btn-primary">Log In</a>
+                    <a href="/sign-up" class="btn btn-primary">Sign Up</a>
+                    <% } %>
+        </div>
+
+    </nav>
+</header>
