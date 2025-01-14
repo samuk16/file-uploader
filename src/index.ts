@@ -8,6 +8,7 @@ import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
 import passport from "./config/passport";
 import logIngRouter from "./routes/logIn";
+import signUpRouter from "./routes/signUp";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -44,6 +45,7 @@ app.get("/", (req, res) => {
 	res.render("pages/index");
 });
 app.use("/log-in", logIngRouter);
+app.use("/sign-up", signUpRouter);
 
 app.listen(PORT || 8000, () => {
 	console.log(`Server running on port ${PORT}`);
