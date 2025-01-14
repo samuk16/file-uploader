@@ -1,0 +1,23 @@
+<%- include("../partials/head") %>
+
+    <main>
+        <div class="error-container">
+            <h1 style="font-size: 5rem;">Error <%= locals.status %>
+            </h1>
+
+            <p>
+                <%= locals.error %>
+            </p>
+            <div>
+                <a href="/" class="btn btn-primary">Home</a>
+                <% if(!locals.currentUser) { %>
+                    <a href="/log-in" class="btn btn-primary">Log In</a>
+                    <a href="/sign-up" class="btn btn-primary">Sign Up</a>
+
+                    <% } %>
+
+            </div>
+        </div>
+    </main>
+
+    <%- include("../partials/footer"); %>

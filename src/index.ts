@@ -11,7 +11,8 @@ import logIngRouter from "./routes/logIn";
 import signUpRouter from "./routes/signUp";
 import logOutRouter from "./routes/logOut";
 import createFolderRouter from "./routes/createFolder";
-
+import type { Request, Response, NextFunction } from "express";
+import type { CustomError } from "./types/customError";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +51,19 @@ app.use("/log-in", logIngRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-out", logOutRouter);
 app.use("/create-folder", createFolderRouter);
+
+app.use("*", (req: Request, res: Response, next: NextFunction) => {
+	const error: CustomError = new Error("Page not found");
+	error.status = 404;
+	next(error);
+});
+
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
+	res
+		.status(err.status || 500)
+		.render("pages/error", { error: err.message, status: err.status || 500 });
+});
+
 app.listen(PORT || 8000, () => {
 	console.log(`Server running on port ${PORT}`);
 });
