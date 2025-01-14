@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client";
 import passport from "./config/passport";
 import logIngRouter from "./routes/logIn";
 import signUpRouter from "./routes/signUp";
+import logOutRouter from "./routes/logOut";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -46,7 +47,7 @@ app.get("/", (req, res) => {
 });
 app.use("/log-in", logIngRouter);
 app.use("/sign-up", signUpRouter);
-
+app.use("/log-out", logOutRouter);
 app.listen(PORT || 8000, () => {
 	console.log(`Server running on port ${PORT}`);
 });

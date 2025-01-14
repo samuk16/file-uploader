@@ -1,8 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
 import { logInValidator } from "../validators/logInValidator";
 import { validationResult } from "express-validator";
+import type { CustomSession } from "../types/session";
 export async function getLogIn(req: Request, res: Response) {
-	res.render("pages/logInForm");
+	const errors = (req.session as CustomSession).messages;
+	(req.session as CustomSession).messages = [];
+	res.render("pages/logInForm", { errors });
 }
 
 export const postLogIn = [

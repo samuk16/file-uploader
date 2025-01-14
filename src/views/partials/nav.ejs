@@ -7,9 +7,9 @@
 
         <div class="container-mini-profile">
             <% if (locals.currentUser) { %>
-                <a href="/create-message" class="btn btn-primary">Create Message</a>
+                <a href="/create-folder" class="btn btn-primary">Create Folder</a>
 
-                <div class=" container-badges">
+                <!-- <div class=" container-badges">
                     <a href="/member">
                         <div class="<%= locals.currentUser.member ? " badge badge-member "
                             : " badge badge-member-inactive " %>
@@ -25,7 +25,7 @@
                         </div>
                     </a>
 
-                </div>
+                </div> -->
                 <a href="/profile" class="btn btn-secondary">
 
                     <%= locals.currentUser.username %>
