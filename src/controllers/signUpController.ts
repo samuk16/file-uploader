@@ -50,10 +50,10 @@ export const postSignUp = [
 					});
 				});
 			});
-			prisma.$disconnect();
+			await prisma.$disconnect();
 			res.redirect("/log-in");
 		} catch (err) {
-			prisma.$disconnect();
+			await prisma.$disconnect();
 			next(err);
 		}
 	},

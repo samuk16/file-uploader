@@ -1,0 +1,32 @@
+<%- include("../partials/head") %>
+    <%- include("../partials/nav"); %>
+
+        <main>
+            <div class="form-container">
+                <div>
+                    <ul>
+                        <% if (locals.errors) { %>
+                            <% locals.errors.forEach((error)=> { %>
+                                <li>
+                                    <%= error.msg ? error.msg : error %>
+                                </li>
+                                <%})%>
+                                    <%} %>
+                    </ul>
+                </div>
+                <form action="/create-folder" method="POST">
+                    <h1>Create Folder</h1>
+                    <div class="form-group">
+
+                        <label for="titleFolder">Name Folder</label>
+                        <input type="text" id="titleFolder" placeholder="Folder" name="titleFolder" required autofocus
+                            defaultValue="test">
+
+                    </div>
+
+                    <button class="btn-form" type="submit">Create</button>
+                </form>
+            </div>
+        </main>
+
+        <%- include("../partials/footer"); %>

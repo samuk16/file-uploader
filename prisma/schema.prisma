@@ -28,7 +28,6 @@ model Folder {
   name      String
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
-  url       String
   author    User     @relation(fields: [userId], references: [id])
   userId    Int
   files     File[]
