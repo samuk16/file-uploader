@@ -2,7 +2,23 @@
     <%- include('../partials/nav') %>
 
         <main>
-            <h1>test</h1>
+            <div class="folders">
+                <div class="containerFandT">
+                    <h1>Folders</h1>
+                    <div class="folderContainer">
+
+                        <% locals.folders.forEach((folder)=> { %>
+                            <div class="folderCard">
+                                <img src="/svgs/folder.svg" alt="">
+
+                                <p>
+                                    <%= folder.name %>
+                                </p>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <%- include('../partials/footer') %>

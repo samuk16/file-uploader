@@ -385,6 +385,40 @@ p{
   gap:10px;
 }
 
-textarea{
-  resize:none;
+.folders{
+  display:flex;
+  justify-content:center;
+
+}
+
+.containerFandT{
+    display:flex;
+  flex-direction:column;
+  gap:20px;
+  max-width:1200px;
+  width:100%;
+}
+
+.folderContainer{
+  display:flex;
+  flex-direction:column;
+  
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.folderCard{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding:10px;
+  cursor:pointer;
+}
+
+
+.folderCard:hover{
+  background-color:var(--hover);
+  
 }
