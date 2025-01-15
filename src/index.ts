@@ -14,6 +14,7 @@ import createFolderRouter from "./routes/createFolder";
 import type { Request, Response, NextFunction } from "express";
 import type { CustomError } from "./types/customError";
 import indexRouter from "./routes/indexRoute";
+import viewFolderRouter from "./routes/viewFolder";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,13 +47,11 @@ app.use((req, res, next) => {
 	next();
 });
 app.use("/", indexRouter);
-// app.get("/", (req: Request, res: Response) => {
-// 	res.render("pages/index");
-// });
 app.use("/log-in", logIngRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-out", logOutRouter);
 app.use("/create-folder", createFolderRouter);
+app.use("/folder", viewFolderRouter);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
 	const error: CustomError = new Error("Page not found");

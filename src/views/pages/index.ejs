@@ -4,17 +4,24 @@
         <main>
             <div class="folders">
                 <div class="containerFandT">
-                    <h1>Folders</h1>
+                    <div class="folderTitle">
+                        <h1>Folders</h1>
+                        <a href="/create-folder" class="btn btn-primary">Add Folder</a>
+
+                    </div>
                     <div class="folderContainer">
 
                         <% locals.folders.forEach((folder)=> { %>
-                            <div class="folderCard">
-                                <img src="/svgs/folder.svg" alt="">
+                            <a href="/folder/<%= folder.id %>">
 
-                                <p>
-                                    <%= folder.name %>
-                                </p>
-                            </div>
+                                <div class="folderCard">
+                                    <img src="/svgs/folder.svg" alt="">
+
+                                    <p>
+                                        <%= folder.name %>
+                                    </p>
+                                </div>
+                            </a>
                             <% }) %>
                     </div>
                 </div>
