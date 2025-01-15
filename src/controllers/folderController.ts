@@ -9,6 +9,26 @@ export function getCreateFolder(req: Request, res: Response) {
 	res.render("pages/createFolderForm");
 }
 
+export async function getViewFolder(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	try {
+		const folder = await prisma.folder.findUnique({
+			where: {
+				id: Number(req.params.id),
+			},
+		});
+
+		await prisma.$disconnect();
+		res.render("pages/viewFolder", { folder });
+	} catch (err) {
+		await prisma.$disconnect();
+		next(err);
+	}
+}
+
 export const postCreateFolder = [
 	createFolderValidator,
 	async (req: Request, res: Response, next: NextFunction) => {

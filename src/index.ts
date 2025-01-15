@@ -10,11 +10,11 @@ import passport from "./config/passport";
 import logIngRouter from "./routes/logIn";
 import signUpRouter from "./routes/signUp";
 import logOutRouter from "./routes/logOut";
-import createFolderRouter from "./routes/createFolder";
+import folderRouter from "./routes/folder";
 import type { Request, Response, NextFunction } from "express";
 import type { CustomError } from "./types/customError";
 import indexRouter from "./routes/indexRoute";
-import viewFolderRouter from "./routes/viewFolder";
+import addFileRouter from "./routes/addFile";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,8 +41,8 @@ app.use(
 );
 app.use(passport.session());
 app.use((req, res, next) => {
-	console.log(req.user);
-	console.log(req.session);
+	// console.log(req.user);
+	// console.log(req.session);
 	res.locals.currentUser = req.user;
 	next();
 });
@@ -50,9 +50,8 @@ app.use("/", indexRouter);
 app.use("/log-in", logIngRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-out", logOutRouter);
-app.use("/create-folder", createFolderRouter);
-app.use("/folder", viewFolderRouter);
-
+app.use("/folder", folderRouter);
+app.use("/add-file", addFileRouter);
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
 	const error: CustomError = new Error("Page not found");
 	error.status = 404;
