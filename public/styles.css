@@ -411,6 +411,7 @@ p{
 .folderCard{
   display:flex;
   gap:10px;
+  justify-content:space-between;
   align-items:center;
   border-bottom:1px solid var(--border);
   padding:10px;
@@ -427,4 +428,19 @@ p{
     display:flex;
     align-items:center;
     justify-content:space-between;
+}
+
+input[type='file']{
+  border:none;
+  background-color:var(--card-bg);
+}
+input::file-selector-button{
+  background-color:var(--input-bg);
+  border:1px solid var(--border);
+  padding:5px 10px;
+  border-radius:6px;
+}
+
+input::file-selector-button:hover{
+  background-color:var(--hover);
 }

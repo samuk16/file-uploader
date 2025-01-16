@@ -6,22 +6,33 @@
                 <div class="containerFandT">
                     <div class="folderTitle">
                         <h1>Folders</h1>
-                        <a href="/create-folder" class="btn btn-primary">Add Folder</a>
+                        <a href="/folder/create-folder" class="btn btn-primary">Add Folder</a>
 
                     </div>
                     <div class="folderContainer">
 
                         <% locals.folders.forEach((folder)=> { %>
-                            <a href="/folder/<%= folder.id %>">
+                            <div class="folderCard">
 
-                                <div class="folderCard">
-                                    <img src="/svgs/folder.svg" alt="">
+                                <a href="/folder/<%= folder.id %>" style="width: 100%;">
+                                    <div class="">
+                                        <div style="display: flex ; gap: 20px;">
+                                            <img src="/svgs/folder.svg" alt="">
 
-                                    <p>
-                                        <%= folder.name %>
-                                    </p>
+                                            <p style="color: #fff;">
+                                                <%= folder.name %>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <div style="display: flex; gap: 10px;">
+                                    <a href="/folder/<%= folder.id %>/edit" class="btn-icon btn-secondary"
+                                        title="Edit"><img src="/svgs/edit_icon.svg" alt=""></a>
+                                    <a href="/folder/<%= folder.id %>/delete" class="btn-icon btn-secondary"
+                                        title="Edit"><img src="/svgs/trash-2.svg" alt=""></a>
                                 </div>
-                            </a>
+                            </div>
                             <% }) %>
                     </div>
                 </div>

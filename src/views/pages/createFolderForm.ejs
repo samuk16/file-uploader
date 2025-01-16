@@ -14,17 +14,22 @@
                                     <%} %>
                     </ul>
                 </div>
-                <form action="/create-folder" method="POST">
-                    <h1>Create Folder</h1>
+                <form action="/folder/<%= locals.title === 'edit' ? locals.id : 'create-folder' %>" method="POST">
+                    <h1>
+                        <%= locals.title.charAt(0).toUpperCase() + locals.title.slice(1).toLowerCase() %>
+                            Folder
+                    </h1>
                     <div class="form-group">
 
                         <label for="titleFolder">Name Folder</label>
                         <input type="text" id="titleFolder" placeholder="Folder" name="titleFolder" required autofocus
-                            defaultValue="test">
+                            value="<%=locals.name ? locals.name : " New Folder" %>">
 
                     </div>
 
-                    <button class="btn-form" type="submit">Create</button>
+                    <button class="btn-form" type="submit">
+                        <%= locals.title.charAt(0).toUpperCase() + locals.title.slice(1).toLowerCase() %>
+                    </button>
                 </form>
             </div>
         </main>
