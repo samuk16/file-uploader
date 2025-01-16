@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+	deleteFolder,
 	getCreateFolder,
 	getUpdateFolder,
 	getViewFolder,
@@ -14,5 +15,6 @@ folderRouter.post("/create-folder", ...postCreateFolder);
 folderRouter.get("/:id", isAuth, getViewFolder);
 folderRouter.get("/:id/edit", isAuth, getUpdateFolder);
 folderRouter.post("/:id", isAuth, ...updateFolder);
+folderRouter.delete("/:id", isAuth, deleteFolder);
 
 export default folderRouter;

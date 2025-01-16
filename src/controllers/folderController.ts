@@ -115,3 +115,22 @@ export const updateFolder = [
 		}
 	},
 ];
+
+//DELETE
+
+export async function deleteFolder(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	try {
+		await prisma.folder.delete({
+			where: {
+				id: Number(req.params.id),
+			},
+		});
+		res.redirect("/");
+	} catch (err) {
+		next(err);
+	}
+}
