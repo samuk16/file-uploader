@@ -34,13 +34,14 @@ model Folder {
 }
 
 model File {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  size      String
-  folder    Folder   @relation(fields: [folderId], references: [id])
-  folderId  Int
+  id          Int      @id @default(autoincrement())
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  downloadUrl String
+  size        String
+  folder      Folder   @relation(fields: [folderId], references: [id])
+  folderId    Int
 }
 
 model Session {
