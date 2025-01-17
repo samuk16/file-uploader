@@ -8,12 +8,21 @@
                         <h1>
                             <%= locals.folder.name %>
                         </h1>
-                        <a href="/add-file" class="btn btn-primary">Add File</a>
+                        <a href="/folder/<%= locals.folder.id %>/add-file" class="btn btn-primary">Add File</a>
 
                     </div>
-                    <div class="folderContainer">
+                    <div class="containerFiles">
+                        <% locals.files.forEach((file)=> { %>
+                            <div class="fileCard">
+                                <div style="display: flex; gap: 10px;">
+                                    <p title="<%= file.title %>">
+                                        <%= file.title %>
+                                    </p>
+                                </div>
+                                <img src="/svgs/file.svg" alt="" style="height: 100%; padding: 20px;">
 
-
+                            </div>
+                            <% }) %>
                     </div>
                 </div>
             </div>

@@ -53,9 +53,13 @@ export async function getViewFolder(
 				id: Number(req.params.id),
 			},
 		});
-
+		const files = await prisma.file.findMany({
+			where: {
+				folderId: folder?.id,
+			},
+		});
 		await prisma.$disconnect();
-		res.render("pages/viewFolder", { folder });
+		res.render("pages/viewFolder", { folder, files });
 	} catch (err) {
 		await prisma.$disconnect();
 		next(err);

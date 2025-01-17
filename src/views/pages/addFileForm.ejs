@@ -1,0 +1,30 @@
+<%- include("../partials/head") %>
+    <%- include("../partials/nav"); %>
+        <main>
+            <div class="form-container">
+                <div>
+                    <ul>
+                        <% if (locals.errors) { %>
+                            <% locals.errors.forEach((error)=> { %>
+                                <li>
+                                    <%= error.msg ? error.msg : error %>
+                                </li>
+                                <%})%>
+                                    <%} %>
+                    </ul>
+                </div>
+                <form action="/folder/<%= locals.folderId %>/add-file" method="POST" enctype="multipart/form-data">
+                    <h1>Add File</h1>
+                    <div class="form-group">
+
+                        <!-- <label for="file">testt</label> -->
+                        <input type="file" id="file" name="uploaded_file">
+
+                    </div>
+
+
+                    <button class="btn-form" type="submit">Add File</button>
+                </form>
+            </div>
+        </main>
+        <%- include("../partials/footer"); %>

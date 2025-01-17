@@ -14,7 +14,7 @@ import folderRouter from "./routes/folder";
 import type { Request, Response, NextFunction } from "express";
 import type { CustomError } from "./types/customError";
 import indexRouter from "./routes/indexRoute";
-import addFileRouter from "./routes/addFile";
+import addFileRouter from "./routes/file";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -52,7 +52,7 @@ app.use("/log-in", logIngRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/log-out", logOutRouter);
 app.use("/folder", folderRouter);
-app.use("/add-file", addFileRouter);
+app.use("/folder", addFileRouter);
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
 	const error: CustomError = new Error("Page not found");
 	error.status = 404;
