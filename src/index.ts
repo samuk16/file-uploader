@@ -15,6 +15,7 @@ import type { Request, Response, NextFunction } from "express";
 import type { CustomError } from "./types/customError";
 import indexRouter from "./routes/indexRoute";
 import addFileRouter from "./routes/file";
+import { getViewFolderShared } from "./controllers/folderController";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -42,8 +43,6 @@ app.use(
 );
 app.use(passport.session());
 app.use((req, res, next) => {
-	// console.log(req.user);
-	// console.log(req.session);
 	res.locals.currentUser = req.user;
 	next();
 });
@@ -53,6 +52,7 @@ app.use("/sign-up", signUpRouter);
 app.use("/log-out", logOutRouter);
 app.use("/folder", folderRouter);
 app.use("/folder", addFileRouter);
+app.get("/share/:hashId", getViewFolderShared);
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
 	const error: CustomError = new Error("Page not found");
 	error.status = 404;

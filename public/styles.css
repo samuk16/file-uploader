@@ -82,7 +82,7 @@ label {
   font-size: 0.9rem;
 }
 
-input,textarea {
+input,textarea,select {
   width: 100%;
   padding: 0.5rem;
   background: var(--input-bg);
@@ -498,4 +498,32 @@ input::file-selector-button:hover{
   white-space: nowrap;
   text-overflow: ellipsis;
   
+}
+
+
+
+.activeLinkContainer{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.containerLink{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--card-bg);
+}
+
+
+#textToCopy{
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px;
+}
+#textToCopy:hover{
+  background-color: var(--hover);
 }

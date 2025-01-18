@@ -39,9 +39,7 @@ export const postFile = [
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const folderId = Number(req.params.id);
-			// console.log(req.file?.filename);
-			// console.log(req.file?.size);
-			// console.log(req.file?.originalname);
+
 			const folder = await prisma.folder.findUnique({
 				where: {
 					id: folderId,
@@ -49,7 +47,6 @@ export const postFile = [
 			});
 
 			const user = req.user as User;
-			// console.log(user);
 			if (req.file) {
 				const path = `${user.username}-${user.id}/${folder?.name}-${folder?.id}/${req.file?.originalname}`;
 				const file = req.file.buffer;
@@ -67,7 +64,7 @@ export const postFile = [
 				});
 			}
 			await prisma.$disconnect();
-			res.redirect("/");
+			res.redirect(`/folder/${folderId}`);
 		} catch (err) {
 			await prisma.$disconnect();
 			next(err);
@@ -88,6 +85,18 @@ function formatFileSize(size: number) {
 export async function getFile(req: Request, res: Response, next: NextFunction) {
 	try {
 		const fileId = Number(req.params.id);
+
+		const folderId = Number(req.params.folderId);
+
+		const sharedFolder = await prisma.shareFolder.findUnique({
+			where: {
+				id: folderId,
+			},
+		});
+
+		if (!sharedFolder) {
+			return res.redirect("/");
+		}
 
 		const file = await prisma.file.findUnique({
 			where: {

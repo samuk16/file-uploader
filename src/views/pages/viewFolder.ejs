@@ -13,7 +13,7 @@
                     </div>
                     <div class="containerFiles">
                         <% locals.folder.files.forEach((file)=> { %>
-                            <a href="/folder/file/<%= file.id %>">
+                            <a href="/folder/<%= locals.folder.id %>/file/<%= file.id %>">
                                 <div class="fileCard">
                                     <div style="display: flex; gap: 10px;">
                                         <p style="color: #fff;" title="<%= file.title %>">
