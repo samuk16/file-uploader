@@ -3,15 +3,13 @@ import { createFolderValidator } from "../validators/createFolderValidator";
 import { validationResult } from "express-validator";
 import { PrismaClient } from "@prisma/client";
 import type { CustomSession } from "../types/session";
-import { CustomError } from "../types/customError";
+import { shareFormValidator } from "../validators/shareFormValidator";
+import crypto from "node:crypto";
+import type { CustomError } from "../types/customError";
 
 const prisma = new PrismaClient();
 
 // CREATE
-
-export function getCreateFolder(req: Request, res: Response) {
-	res.render("pages/createFolderForm", { title: "Create" });
-}
 
 export const postCreateFolder = [
 	createFolderValidator,
@@ -23,8 +21,7 @@ export const postCreateFolder = [
 			}
 			const { titleFolder } = req.body;
 			const userId = (req.session as CustomSession).passport.user;
-			// console.log(userId);
-			// console.log(titleFolder);
+
 			await prisma.folder.create({
 				data: {
 					name: titleFolder,
@@ -41,7 +38,45 @@ export const postCreateFolder = [
 	},
 ];
 
+function genShareHash(folderId: number) {
+	const uniqueId = crypto.randomBytes(16).toString("hex");
+	return `${folderId}-${uniqueId}`;
+}
+
+export const postShareFolder = [
+	shareFormValidator,
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const folderId = Number(req.params.id);
+			const { dates } = req.body;
+
+			const daysToAdd = Number(dates);
+			const expireDate = new Date();
+			const shareHashUrl = genShareHash(folderId);
+			expireDate.setDate(expireDate.getDate() + daysToAdd);
+
+			await prisma.shareFolder.create({
+				data: {
+					expireDate: expireDate,
+					folderId: folderId,
+					shareUrl: shareHashUrl,
+				},
+			});
+
+			await prisma.$disconnect();
+			res.redirect("/");
+		} catch (err) {
+			await prisma.$disconnect();
+			next(err);
+		}
+	},
+];
+
 // READ
+
+export function getCreateFolder(req: Request, res: Response) {
+	res.render("pages/createFolderForm", { title: "Create" });
+}
 export async function getViewFolder(
 	req: Request,
 	res: Response,
@@ -52,14 +87,94 @@ export async function getViewFolder(
 			where: {
 				id: Number(req.params.id),
 			},
-		});
-		const files = await prisma.file.findMany({
-			where: {
-				folderId: folder?.id,
+			include: {
+				files: true,
 			},
 		});
+		// const files = await prisma.file.findMany({
+		// 	where: {
+		// 		folderId: folder?.id,
+		// 	},
+		// });
 		await prisma.$disconnect();
-		res.render("pages/viewFolder", { folder, files });
+		res.render("pages/viewFolder", { folder });
+	} catch (err) {
+		await prisma.$disconnect();
+		next(err);
+	}
+}
+
+export async function getShareForm(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	try {
+		const folderId = req.params.id;
+
+		const folder = await prisma.shareFolder.findUnique({
+			where: {
+				folderId: Number(folderId),
+			},
+		});
+
+		const baseUrl = `${req.protocol}://${req.hostname}:3000`;
+		const now = new Date();
+		if (folder && now < folder.expireDate) {
+			// const err: CustomError = new Error(
+			// 	"There is already an active shared folder for this folder.",
+			// );
+			// err.status = 400;
+			// next(err);
+			return res.render("pages/shareFolderForm", {
+				folderId,
+				activeLink: true,
+				folder,
+				baseUrl,
+			});
+		}
+		await prisma.$disconnect();
+		res.render("pages/shareFolderForm", { folderId });
+	} catch (err) {
+		await prisma.$disconnect();
+		next(err);
+	}
+}
+
+export async function getViewFolderShared(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	try {
+		const hashId = req.params.hashId;
+		const shareFolder = await prisma.shareFolder.findUnique({
+			where: {
+				shareUrl: hashId,
+			},
+		});
+		if (!shareFolder) {
+			next(new Error("Folder not found"));
+		}
+
+		const now = new Date();
+		if (shareFolder) {
+			if (now > shareFolder.expireDate) {
+				next(new Error("Link expired"));
+			}
+		}
+
+		const folder = await prisma.folder.findUnique({
+			where: {
+				id: shareFolder?.folderId,
+			},
+			include: {
+				files: true,
+			},
+		});
+
+		await prisma.$disconnect();
+		res.render("pages/viewFolder", { folder });
 	} catch (err) {
 		await prisma.$disconnect();
 		next(err);

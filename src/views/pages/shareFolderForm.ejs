@@ -1,0 +1,80 @@
+<%- include("../partials/head") %>
+    <%- include("../partials/nav"); %>
+        <main>
+
+            <% if(locals.activeLink){ %>
+                <div class="activeLinkContainer">
+
+                    <div class="containerLink">
+                        <h1>There is already an active shared folder for this folder.</h1>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <div id="textToCopy">
+                                <%= locals.baseUrl %>/share/<%= locals.folder.shareUrl %>
+                            </div>
+                            <button id="copyButton" class="btn-icon btn-secondary" style="opacity: 1;">
+                                <img src="/svgs/clipboard.svg" alt="">
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+                <% }else { %>
+                    <div class="form-container">
+
+
+                        <div>
+                            <ul>
+                                <% if (locals.errors) { %>
+                                    <% locals.errors.forEach((error)=> { %>
+                                        <li>
+                                            <%= error.msg ? error.msg : error %>
+                                        </li>
+                                        <%})%>
+                                            <%} %>
+                            </ul>
+                        </div>
+
+
+
+                        <form action="/folder/share/<%= locals.folderId %>" method="POST">
+                            <h1>Share Folder</h1>
+
+                            <div class="form-group">
+
+                                <label for="dates">Choose Date</label>
+                                <select name="dates" id="dates" class="formDate">
+                                    <option value="1">1 day</option>
+                                    <option value="2">2 day</option>
+                                    <option value="5">5 day</option>
+                                </select>
+                            </div>
+
+
+                            <button class="btn-form" type="submit">Share</button>
+                        </form>
+                        <% } %>
+
+                    </div>
+        </main>
+        <script>
+            const button = document.getElementById('copyButton');
+            const textElement = document.getElementById('textToCopy');
+
+            button.addEventListener('click', () => {
+                const range = document.createRange();
+                range.selectNode(textElement);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+
+                window.getSelection().removeAllRanges();
+            });
+
+        </script>
+        <%- include("../partials/footer"); %>
