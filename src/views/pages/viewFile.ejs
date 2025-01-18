@@ -1,0 +1,20 @@
+<%- include("../partials/head") %>
+    <%- include("../partials/nav") %>
+        <main>
+            <div class="fileViewCard">
+                <p title="<%= locals.file.title %>">Title: <%= locals.file.title %>
+                </p>
+
+                <p>Size: <%= locals.sizeFormatted %>
+                </p>
+
+                <p>Created At: <%= locals.file.createdAt.toLocaleString('en-US') %>
+                </p>
+
+                <a class="btn btn-primary" href="<%= locals.file.downloadUrl %>" target="_blank"
+                    rel="noopener noreferrer">Download</a>
+            </div>
+
+        </main>
+
+        <%- include("../partials/footer") %>

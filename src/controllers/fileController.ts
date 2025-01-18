@@ -10,7 +10,6 @@ const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
 const prisma = new PrismaClient();
 export function getAddFile(req: Request, res: Response) {
 	const folderId = Number(req.params.id);
-	console.log(folderId);
 	res.render("pages/addFileForm", { folderId });
 }
 interface User {
@@ -76,19 +75,27 @@ export const postFile = [
 	},
 ];
 
-export async function getFiles(
-	req: Request,
-	res: Response,
-	next: NextFunction,
-) {
+function formatFileSize(size: number) {
+	if (size < 1024) {
+		return `${size} B`;
+	}
+	if (size < 1024 * 1024) {
+		return `${(size / 1024).toFixed(1)} KB`;
+	}
+	return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+export async function getFile(req: Request, res: Response, next: NextFunction) {
 	try {
-		const folderId = Number(req.params.id);
-		const files = await prisma.file.findMany({
+		const fileId = Number(req.params.id);
+
+		const file = await prisma.file.findUnique({
 			where: {
-				folderId: folderId,
+				id: fileId,
 			},
 		});
-		res.render("pages/viewFolder", { files });
+		const sizeFormatted = formatFileSize(Number(file?.size));
+		res.render("pages/viewFile", { file, sizeFormatted });
 		await prisma.$disconnect();
 	} catch (err) {
 		await prisma.$disconnect();

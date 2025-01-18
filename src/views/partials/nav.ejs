@@ -7,29 +7,11 @@
 
         <div class="container-mini-profile">
             <% if (locals.currentUser) { %>
-                <!-- <a href="/create-folder" class="btn btn-primary">Create Folder</a> -->
 
-                <!-- <div class=" container-badges">
-                    <a href="/member">
-                        <div class="<%= locals.currentUser.member ? " badge badge-member "
-                            : " badge badge-member-inactive " %>
-                            ">Member
-                        </div>
-                    </a>
-
-                    <a href="/admin">
-
-                        <div class="<%= locals.currentUser.admin ? " badge badge-admin" : "badge badge-admin-inactive"
-                            %>
-                            ">Admin
-                        </div>
-                    </a>
-
-                </div> -->
-                <a href="/profile" class="btn btn-secondary">
+                <div class="btn btn-secondary">
 
                     <%= locals.currentUser.username %>
-                </a>
+                </div>
 
 
                 <form action="/log-out" method="POST" style="display: inline;">

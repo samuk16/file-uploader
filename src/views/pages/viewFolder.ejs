@@ -4,7 +4,7 @@
         <main>
             <div class="folders">
                 <div class="containerFandT">
-                    <div class="folderTitle">
+                    <div class="folderTitle" style="border-bottom:1px solid var(--border);">
                         <h1>
                             <%= locals.folder.name %>
                         </h1>
@@ -13,15 +13,21 @@
                     </div>
                     <div class="containerFiles">
                         <% locals.files.forEach((file)=> { %>
-                            <div class="fileCard">
-                                <div style="display: flex; gap: 10px;">
-                                    <p title="<%= file.title %>">
-                                        <%= file.title %>
-                                    </p>
-                                </div>
-                                <img src="/svgs/file.svg" alt="" style="height: 100%; padding: 20px;">
+                            <a href="/folder/file/<%= file.id %>">
+                                <div class="fileCard">
+                                    <div style="display: flex; gap: 10px;">
+                                        <p style="color: #fff;" title="<%= file.title %>">
+                                            <%= file.title %>
+                                        </p>
+                                    </div>
+                                    <div
+                                        style="display: flex; justify-content: center; align-items: center; height: 100%;">
 
-                            </div>
+                                        <img src="/svgs/file.svg" alt="" style="height: auto; width: 110px;">
+                                    </div>
+
+                                </div>
+                            </a>
                             <% }) %>
                     </div>
                 </div>
