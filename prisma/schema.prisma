@@ -24,13 +24,14 @@ model User {
 }
 
 model Folder {
-  id        Int      @id @default(autoincrement())
-  name      String
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [userId], references: [id])
-  userId    Int
-  files     File[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime     @default(now())
+  author      User         @relation(fields: [userId], references: [id])
+  userId      Int
+  files       File[]
+  ShareFolder ShareFolder?
 }
 
 model File {
@@ -49,4 +50,13 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model ShareFolder {
+  id         Int      @id @default(autoincrement())
+  shareUrl   String   @unique
+  folder     Folder   @relation(fields: [folderId], references: [id])
+  folderId   Int      @unique
+  expireDate DateTime
+  createdAt  DateTime @default(now())
 }
