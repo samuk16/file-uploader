@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 import type { CustomSession } from "../types/session";
 import { shareFormValidator } from "../validators/shareFormValidator";
 import crypto from "node:crypto";
-import type { CustomError } from "../types/customError";
 
 const prisma = new PrismaClient();
 
@@ -32,7 +31,6 @@ export const postCreateFolder = [
 			res.redirect("/");
 		} catch (err) {
 			await prisma.$disconnect();
-			// console.log(err);
 			next(err);
 		}
 	},
@@ -91,11 +89,7 @@ export async function getViewFolder(
 				files: true,
 			},
 		});
-		// const files = await prisma.file.findMany({
-		// 	where: {
-		// 		folderId: folder?.id,
-		// 	},
-		// });
+
 		await prisma.$disconnect();
 		res.render("pages/viewFolder", { folder });
 	} catch (err) {
@@ -121,11 +115,6 @@ export async function getShareForm(
 		const baseUrl = `${req.protocol}://${req.hostname}:3000`;
 		const now = new Date();
 		if (folder && now < folder.expireDate) {
-			// const err: CustomError = new Error(
-			// 	"There is already an active shared folder for this folder.",
-			// );
-			// err.status = 400;
-			// next(err);
 			return res.render("pages/shareFolderForm", {
 				folderId,
 				activeLink: true,

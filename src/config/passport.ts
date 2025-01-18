@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
-// import { pool } from "../db/pool";
 import { PrismaClient } from "@prisma/client";
 interface CustomUser extends Express.User {
 	id: number;
@@ -16,18 +15,11 @@ const prisma = new PrismaClient();
 passport.use(
 	new LocalStrategy(async (username, password, done) => {
 		try {
-			// const { rows } = await pool.query(
-			// 	"SELECT * FROM users WHERE username = $1",
-			// 	[username],
-			// );
-
 			const user = await prisma.user.findFirst({
 				where: {
 					username: username,
 				},
 			});
-			console.log(user);
-			// const user = rows[0] as CustomUser;
 			if (!user) {
 				return done(null, false, { message: "Incorrect username" });
 			}
@@ -41,7 +33,6 @@ passport.use(
 			return done(null, user);
 		} catch (err) {
 			await prisma.$disconnect();
-			// process.exit(1);
 			return done(err);
 		}
 	}),
@@ -54,9 +45,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id: number, done) => {
 	try {
-		// const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-		// 	id,
-		// ]);
 		const user = await prisma.user.findUnique({
 			where: {
 				id: id,

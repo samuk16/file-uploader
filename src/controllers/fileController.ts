@@ -2,7 +2,6 @@ import type { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_URL, SUPABASE_KEY } from "../config/config";
-import type { CustomSession } from "../types/session";
 import { PrismaClient } from "@prisma/client";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const storage = multer.memoryStorage();
@@ -52,8 +51,7 @@ export const postFile = [
 				const file = req.file.buffer;
 				const { data, error } = await uploadFile(path, file);
 				const { dataUrl } = await getUrl(data?.path as string);
-				// console.log(data);
-				// console.log(dataUrl);
+
 				await prisma.file.create({
 					data: {
 						title: req.file?.originalname,
