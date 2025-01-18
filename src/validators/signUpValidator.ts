@@ -31,7 +31,6 @@ export const signUpFormValidator = [
 		.withMessage("Password must be at most 40 characters long."),
 	body("confirmPassword").custom((value, { req }) => {
 		if (value !== req.body.password) {
-			console.log(value, req.body.password);
 			throw new Error("Passwords do not match");
 		}
 		if (value === req.body.password) {

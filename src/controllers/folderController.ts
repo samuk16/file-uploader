@@ -23,8 +23,8 @@ export const postCreateFolder = [
 			}
 			const { titleFolder } = req.body;
 			const userId = (req.session as CustomSession).passport.user;
-			console.log(userId);
-			console.log(titleFolder);
+			// console.log(userId);
+			// console.log(titleFolder);
 			await prisma.folder.create({
 				data: {
 					name: titleFolder,
@@ -35,7 +35,7 @@ export const postCreateFolder = [
 			res.redirect("/");
 		} catch (err) {
 			await prisma.$disconnect();
-			console.log(err);
+			// console.log(err);
 			next(err);
 		}
 	},
