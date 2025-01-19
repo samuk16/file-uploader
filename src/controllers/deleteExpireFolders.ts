@@ -8,7 +8,10 @@ async function deleteExpireFolders() {
 				expireDate: { lt: now },
 			},
 		});
+		await prisma.$disconnect();
+		console.log("Expire folders deleted");
 	} catch (err) {
+		await prisma.$disconnect();
 		console.error(err);
 	}
 }
