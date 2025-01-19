@@ -112,7 +112,7 @@ export async function getShareForm(
 			},
 		});
 
-		const baseUrl = `${req.protocol}://${req.hostname}:3000`;
+		const baseUrl = `${req.protocol}://${req.hostname}`;
 		const now = new Date();
 		if (folder && now < folder.expireDate) {
 			return res.render("pages/shareFolderForm", {
