@@ -4,7 +4,7 @@
   "description": "",
   "exports": "./dist/index.mjs",
   "scripts": {
-    "build": "pkgroll && cp-cli src/views dist/views",
+    "build": "prisma generate && prisma migrate deploy && pkgroll && cp-cli src/views dist/views",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
