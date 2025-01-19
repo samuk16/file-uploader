@@ -88,12 +88,13 @@ export async function getFile(req: Request, res: Response, next: NextFunction) {
 
 		const sharedFolder = await prisma.shareFolder.findUnique({
 			where: {
-				id: folderId,
+				folderId: folderId,
 			},
 		});
-
-		if (!sharedFolder) {
-			return res.redirect("/");
+		if (!req.isAuthenticated()) {
+			if (!sharedFolder) {
+				return res.redirect("/");
+			}
 		}
 
 		const file = await prisma.file.findUnique({
