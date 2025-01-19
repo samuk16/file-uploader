@@ -21,14 +21,14 @@ interface User {
 
 async function uploadFile(path: string, file: Buffer) {
 	const { data, error } = await supabase.storage
-		.from("testeando")
+		.from("file-uploader-Folders")
 		.upload(path, file);
 
 	return { data, error };
 }
 async function getUrl(path: string) {
 	const { data } = supabase.storage
-		.from("testeando")
+		.from("file-uploader-Folders")
 		.getPublicUrl(`${path}?download`);
 
 	return { dataUrl: data };
